@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Adopters</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<nav>
+    <div class="logo">🐾 Pet Adoption</div>
+    <ul>
+        <li><a href="/static/index.html">Home</a></li>
+        <li><a href="/static/add-pet.html">Add Pet</a></li>
+        <li><a href="/static/view-pets.html">View Pets</a></li>
+        <li><a href="/static/adopt-pet.html">Adopt</a></li>
+        <li><a class="active" href="/static/view-adopters.html">Adopters</a></li>
+        <li><a href="/static/login.html">Login</a></li>
+    </ul>
+</nav>
+
+<div class="page-container">
+    <h2>Adopters List</h2>
+    <div id="list" class="pets-container"></div>
+</div>
+
+<script>
+async function loadAdopters() {
+    const res = await fetch("/adopters");
+    const data = await res.json();
+    const container = document.getElementById("list");
+    if (!data.length) {
+        container.innerHTML = "<p>No adopters yet.</p>";
+        return;
+    }
+    container.innerHTML = data.map(a => `
+        <div class="pet-card">
+            <h3>${a.adopter_name}</h3>
+            <p><strong>Phone:</strong> ${a.phone}</p>
+            <p><strong>Address:</strong> ${a.address}</p>
+            <p><strong>Pet:</strong> ${a.pet_name}</p>
+        </div>
+    `).join("");
+}
+loadAdopters();
+</script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Adopt A Pet</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">Pet Adoption</div>
+    <ul>
+        <li><a href="/static/index.html">Home</a></li>
+        <li><a href="/static/add-pet.html">Add Pet</a></li>
+        <li><a href="/static/view-pets.html">View Pets</a></li>
+        <li><a class="active" href="/static/adopt-pet.html">Adopt</a></li>
+        <li><a href="/static/view-adopters.html">Adopters</a></li>
+    </ul>
+</nav>
+
+<div class="page-container">
+<form id="adoptForm">
+    <h2>Adopt A Pet</h2>
+
+    <label>Your Name:</label>
+    <input id="adopter_name" placeholder="Your name" required>
+
+    <label>Phone:</label>
+    <input id="phone" placeholder="Phone number" required>
+
+    <label>Address:</label>
+    <input id="address" placeholder="Address" required>
+
+    <label>Pet Name:</label>
+    <input id="pet_name" placeholder="Name of pet to adopt" required>
+
+    <button type="submit">Submit</button>
+</form>
+
+<p id="msg"></p>
+</div>
+
+<script>
+document.getElementById("adoptForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const data = {
+        adopter_name: document.getElementById("adopter_name").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        address: document.getElementById("address").value.trim(),
+        pet_name: document.getElementById("pet_name").value.trim()
+    };
+
+    const res = await fetch("http://127.0.0.1:8000/adopt", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+    });
+
+    const j = await res.json();
+    msg.innerText = j.message || "Adoption finished";
+    alert(j.message || "Adoption finished");
+    // optional: redirect to adopters list
+    setTimeout(()=> window.location.href = "/static/view-adopters.html", 700);
+});
+</script>
+
+</body>
+</html>

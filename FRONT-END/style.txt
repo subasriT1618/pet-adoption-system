@@ -1,0 +1,258 @@
+/* ---------------- GLOBAL ---------------- */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url("https://images.unsplash.com/photo-1560807707-8cc77767d783?auto=format&fit=crop&w=1600&q=80")
+                center/cover no-repeat fixed;
+    color: #333;
+}
+
+/* Wrapper for all pages */
+.page-container {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(4px);
+    padding: 25px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 1000px;
+    margin: 30px auto;
+}
+
+/* ---------------- NAVBAR ---------------- */
+nav {
+    background: rgba(255,255,255,0.92);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #e3eef7;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav .logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #4a90e2;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    margin: 0;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #4a4a4a;
+    font-size: 17px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+    color: #4a90e2;
+}
+
+/* Special Login Button in Navbar */
+.nav-login-btn {
+    padding: 8px 20px;
+    border-radius: 20px;
+    background: #4a90e2;
+    color: white !important;
+}
+
+.nav-login-btn:hover {
+    background: #3a74b8;
+    transform: scale(1.05);
+}
+
+/* ---------------- HERO SECTION ---------------- */
+.hero {
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    text-shadow: 0px 3px 8px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+}
+
+.hero h1 {
+    font-size: 52px;
+    font-weight: bold;
+}
+
+.hero p {
+    margin-top: 10px;
+    font-size: 22px;
+    max-width: 700px;
+}
+
+/* Hero Buttons */
+.hero-buttons {
+    margin-top: 35px;
+    display: flex;
+    gap: 20px;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-login-hero {
+    padding: 14px 32px;
+    border-radius: 30px;
+    font-size: 18px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-weight: bold;
+}
+
+/* Main Button */
+.btn-primary {
+    background: #4a90e2;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #3a74b8;
+    transform: scale(1.05);
+}
+
+/* Outline Button */
+.btn-secondary {
+    border: 2px solid #4a90e2;
+    color: #4a90e2;
+    background: white;
+}
+
+.btn-secondary:hover {
+    background: #4a90e2;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Login Button on Hero */
+.btn-login-hero {
+    background: white;
+    color: #4a90e2;
+    border: 2px solid white;
+}
+
+.btn-login-hero:hover {
+    background: #4a90e2;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* ---------------- FORM ---------------- */
+form {
+    padding: 20px;
+}
+
+form h2 {
+    text-align: center;
+    color: #4a90e2;
+}
+
+label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 5px;
+    border: 1px solid #cbd9e6;
+}
+
+/* Submit Button */
+button {
+    width: 100%;
+    padding: 12px;
+    background: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #3a74b8;
+    transform: scale(1.05);
+}
+
+/* ---------------- PET GRID ---------------- */
+.pets-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.pet-card {
+    background: rgba(255, 255, 255, 0.92);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #d8e6f3;
+    text-align: center;
+}
+
+.pet-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.pet-card h3 {
+    margin-top: 10px;
+    color: #4a90e2;
+}
+
+/* LOGIN PAGE BOX */
+.auth-container {
+    background: rgba(255, 255, 255, 0.92);
+    padding: 30px;
+    width: 380px;
+    margin: 100px auto;
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.auth-container h2 {
+    color: #4a90e2;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+.auth-container input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    border: 1px solid #cbd9e6;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.auth-container button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 30px;
+    background: #4a90e2;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}

@@ -1,0 +1,89 @@
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+from pydantic import BaseModel
+from typing import Optional
+from pymongo import MongoClient
+import os
+
+app = FastAPI()
+
+# CORS (allow local frontend to call the API)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# FRONTEND PATH (your folder)
+FRONTEND_PATH = r"C:\Users\RITHIK\Desktop\Pet-adoption\frontend"
+
+# MongoDB connection (use 127.0.0.1 to avoid Windows localhost issues)
+client = MongoClient("mongodb://127.0.0.1:27017/?directConnection=true")
+db = client["pet_adoption"]
+pets = db["pets"]
+adopters = db["adopters"]
+
+# serve static frontend at /static
+app.mount("/static", StaticFiles(directory=FRONTEND_PATH), name="static")
+
+@app.get("/")
+def root():
+    return FileResponse(os.path.join(FRONTEND_PATH, "index.html"))
+
+# ---------------- Models ----------------
+class LoginModel(BaseModel):
+    username: str
+    password: str
+
+class PetModel(BaseModel):
+    name: str
+    age: int
+    type: str
+    image: Optional[str] = ""
+    adopted: bool = False
+
+class AdopterModel(BaseModel):
+    pet_name: str
+    adopter_name: str
+    phone: str
+    address: str
+
+# ---------------- Auth (single hard-coded account) ----------------
+@app.post("/login")
+def login(data: LoginModel):
+    # Hard-coded credentials
+    if data.username == "user" and data.password == "123":
+        return {"message": "Login successful", "status": True}
+    return {"message": "Invalid username or password", "status": False}
+
+# ---------------- Pets ----------------
+@app.post("/pets")
+def add_pet(p: PetModel):
+    if not p.image:
+        defaults = {
+            "dog": "https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=800&q=80",
+            "cat": "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=800&q=80",
+        }
+        p.image = defaults.get(p.type.lower(),
+                              "https://images.unsplash.com/photo-1508672019048-805c876b67e2?auto=format&fit=crop&w=800&q=80")
+    pets.insert_one(p.dict())
+    return {"message": "Pet added successfully"}
+
+@app.get("/pets")
+def get_pets():
+    return list(pets.find({}, {"_id": 0}))
+
+# ---------------- Adopt (no login required) ----------------
+@app.post("/adopt")
+def adopt(a: AdopterModel):
+    # No registered-user check — anyone can adopt (as requested)
+    pets.update_one({"name": a.pet_name}, {"$set": {"adopted": True}})
+    adopters.insert_one(a.dict())
+    return {"message": "Adoption successful"}
+
+@app.get("/adopters")
+def get_adopters():
+    return list(adopters.find({}, {"_id": 0}))
